@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: desimandi
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: yourDatabaseName
+      username: yourUsername
+      password: yourPassword
+      authentication-database: admin
+

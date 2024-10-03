@@ -1,13 +1,11 @@
 package com.project.desimandi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Document(collection = "product")
 //@Getter
@@ -16,19 +14,22 @@ import java.math.BigDecimal;
 //@NoArgsConstructor
 public class Product {
     @Id
-    private String UUID;
+    private UUID id;
     private String productName ;
     private BigDecimal buyPrice;
     private BigDecimal price;
     private String imageUrl ;
 
-
-    public String getUUID() {
-        return UUID;
+    Product(){
+        this.id = UUID.randomUUID(); // Automatically generate UUID̵
     }
 
-    public void setUUID(String UUID) {
-        this.UUID = UUID;
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getProductName() {
@@ -63,11 +64,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Product(String imageUrl, BigDecimal price, BigDecimal buyPrice, String productName, String UUID) {
+    public Product(String imageUrl, BigDecimal price, BigDecimal buyPrice, String productName, UUID id) {
         this.imageUrl = imageUrl;
         this.price = price;
         this.buyPrice = buyPrice;
         this.productName = productName;
-        this.UUID = UUID;
+        this.id = id;
     }
 }

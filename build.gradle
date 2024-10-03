@@ -32,6 +32,7 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.28' // Check for the latest version
 	compileOnly 'org.projectlombok:lombok:1.18.28'
 	annotationProcessor 'org.projectlombok:lombok:1.18.28'
+//	implementation 'org.springdoc:springdoc-openapi-ui:2.0.0'// Check for the latest version
 }
 
 tasks.named('test') {

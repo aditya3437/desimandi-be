@@ -1,8 +1,10 @@
 package com.project.desimandi.controller;
 
+import com.project.desimandi.dto.ProductDTO;
 import com.project.desimandi.entity.Product;
 import com.project.desimandi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,42 +14,16 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService service;
+    private ProductService productService;
 
     @GetMapping("/products")
     public List<Product> getName(){
-        return service.fetchAllProducts();
+        return productService.fetchAllProducts();
     }
 
     @PostMapping("/product")
     public Product addProduct(@RequestBody Product product){
-        return service.addProduct(product);
-import com.project.desimandi.dto.ProductDTO;
-import com.project.desimandi.service.ProductService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
-
-@RestController
-@RequestMapping("/products")
-@RequiredArgsConstructor
-public class ProductController {
-
-    private final ProductService productService;
-
-    /**
-     * Retrieves all products.
-     *
-     * @return a ResponseEntity containing a list of ProductDTO objects.
-     */
-    @GetMapping("/getAllProducts")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
-    }
+        return productService.addProduct(product);
 
     /**
      * Retrieves a product by its ID.
@@ -55,7 +31,7 @@ public class ProductController {
      * @param id the UUID of the product to retrieve.
      * @return a ResponseEntity containing the ProductDTO if found, or a 404 Not Found response.
      */
-    @GetMapping("/getProductById/{id}")
+    @GetMapping
     public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
         return productService.getProductById(id)
                 .map(ResponseEntity::ok)
@@ -68,18 +44,7 @@ public class ProductController {
      * @param productDTO the ProductDTO containing product details to be created.
      * @return a ResponseEntity containing the created ProductDTO with a 201 Created status.
      */
-    @PostMapping("/save")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO createdProduct = productService.saveProduct(productDTO);
-        return ResponseEntity.status(201).body(createdProduct);
-    }
 
-    /**
-     * Deletes a product by its ID.
-     *
-     * @param id the UUID of the product to delete.
-     * @return a ResponseEntity with no content (204 No Content).
-     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
         productService.deleteProduct(id);

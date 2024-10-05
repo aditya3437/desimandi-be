@@ -2,20 +2,18 @@ package com.project.desimandi.service;
 
 import com.project.desimandi.dto.ProductDTO;
 import com.project.desimandi.entity.Product;
-import com.project.desimandi.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
 public interface ProductService {
 
-    List<ProductDTO> getAllProducts();
+    List<Product> fetchAllProducts();
 
     Optional<ProductDTO> getProductById(UUID id);
+
+    Product addProduct(Product product);
 
     ProductDTO saveProduct(ProductDTO productDTO);
 

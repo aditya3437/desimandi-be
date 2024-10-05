@@ -1,7 +1,7 @@
 package com.project.desimandi.service.impl;
 
 import com.project.desimandi.dto.ProductDTO;
-import com.project.desimandi.model.Product;
+import com.project.desimandi.entity.Product;
 import com.project.desimandi.repository.ProductRepository;
 import com.project.desimandi.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +19,18 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<ProductDTO> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Product> fetchAllProducts() {
+        return productRepository.findAll();
     }
 
     @Override
     public Optional<ProductDTO> getProductById(UUID id) {
         return productRepository.findById(id).map(this::convertToDTO);
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
     }
 
     @Override
@@ -52,9 +55,10 @@ public class ProductServiceImpl implements ProductService {
     private ProductDTO convertToDTO(Product product) {
         return ProductDTO.builder()
                 .id(product.getId())
-                .name(product.getName())
+                .productName(product.getProductName())
                 .category(product.getCategory())
-                .price(product.getPrice())
+                .sellPrice(product.getSellPrice())
+                .buyPrice(product.getBuyPrice())
                 .quantity(product.getQuantity())
                 .description(product.getDescription())
                 .imageUrl(product.getImageUrl())
@@ -65,12 +69,14 @@ public class ProductServiceImpl implements ProductService {
     private Product convertToEntity(ProductDTO productDTO) {
         return Product.builder()
                 .id(productDTO.getId())
-                .name(productDTO.getName())
+                .productName(productDTO.getProductName())
                 .category(productDTO.getCategory())
-                .price(productDTO.getPrice())
+                .sellPrice(productDTO.getSellPrice())
+                .buyPrice(productDTO.getBuyPrice())
                 .quantity(productDTO.getQuantity())
                 .description(productDTO.getDescription())
                 .imageUrl(productDTO.getImageUrl())
                 .build();
     }
+
 }

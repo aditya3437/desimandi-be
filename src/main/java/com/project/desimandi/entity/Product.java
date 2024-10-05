@@ -1,5 +1,6 @@
 package com.project.desimandi.entity;
 
+import com.project.desimandi.enums.Category;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,67 +9,31 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Document(collection = "product")
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
+
     @Id
     private UUID id;
-    private String productName ;
+
+    private String productName;
     private BigDecimal buyPrice;
-    private BigDecimal price;
-    private String imageUrl ;
+    private BigDecimal sellPrice;
+    private String imageUrl;
+    private Category category;
+    private int quantity;
+    private String description;
 
-    Product(){
-        this.id = UUID.randomUUID(); // Automatically generate UUID̵
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
+    public Product(String productName, BigDecimal buyPrice, BigDecimal sellPrice, String imageUrl, Category category, int quantity, String description) {
+        this.id = UUID.randomUUID();
         this.productName = productName;
-    }
-
-    public BigDecimal getBuyPrice() {
-        return buyPrice;
-    }
-
-    public void setBuyPrice(BigDecimal buyPrice) {
         this.buyPrice = buyPrice;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
+        this.sellPrice = sellPrice;
         this.imageUrl = imageUrl;
-    }
-
-    public Product(String imageUrl, BigDecimal price, BigDecimal buyPrice, String productName, UUID id) {
-        this.imageUrl = imageUrl;
-        this.price = price;
-        this.buyPrice = buyPrice;
-        this.productName = productName;
-        this.id = id;
+        this.category = category;
+        this.quantity = quantity;
+        this.description = description;
     }
 }

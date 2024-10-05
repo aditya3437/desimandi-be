@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/desimandi")
@@ -16,14 +17,26 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * Retrieves all products.
+     *
+     * @return a list of all Product entities.
+     */
     @GetMapping("/products")
-    public List<Product> getName(){
+    public List<Product> fetchAllProducts(){
         return productService.fetchAllProducts();
     }
 
+    /**
+     * Adds a new product.
+     *
+     * @param product the Product entity to add.
+     * @return the added Product entity.
+     */
     @PostMapping("/product")
-    public Product addProduct(@RequestBody Product product){
+    public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
+    }
 
     /**
      * Retrieves a product by its ID.
@@ -31,7 +44,7 @@ public class ProductController {
      * @param id the UUID of the product to retrieve.
      * @return a ResponseEntity containing the ProductDTO if found, or a 404 Not Found response.
      */
-    @GetMapping
+    @GetMapping("/product/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable UUID id) {
         return productService.getProductById(id)
                 .map(ResponseEntity::ok)
@@ -39,12 +52,11 @@ public class ProductController {
     }
 
     /**
-     * Creates a new product.
+     * Deletes a product by its ID.
      *
-     * @param productDTO the ProductDTO containing product details to be created.
-     * @return a ResponseEntity containing the created ProductDTO with a 201 Created status.
+     * @param id the UUID of the product to delete.
+     * @return a ResponseEntity with no content status.
      */
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
         productService.deleteProduct(id);
@@ -68,11 +80,10 @@ public class ProductController {
     }
 
     /**
-     * Retrieves a list of products by their category.
+     * Retrieves products by category.
      *
-     * @param category the category of the products to retrieve
-     * @return a ResponseEntity containing a list of ProductDTO objects
-     *         matching the specified category, or an empty list if none found
+     * @param category the category of the products to retrieve.
+     * @return a ResponseEntity containing a list of ProductDTO objects matching the specified category.
      */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable String category) {
